@@ -1,32 +1,42 @@
 package com.codechapin.sxpj;
 
-import java.util.Deque;
-import java.util.LinkedList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
  */
 public class MovieDatabase {
-    private final Deque<MovieCategory> categories;
+    private final Map<String, MovieCategory> categories;
+    private MovieCategory current;
 
     public MovieDatabase() {
-        categories = new LinkedList<>();
+        categories = new HashMap<>();
     }
 
-    public void add(final MovieCategory category) {
-        categories.add(category);
+    public void setCurrentCategory(final MovieCategory category) {
+        current = category;
     }
 
     public MovieCategory currentCategory() {
-        return categories.getLast();
+        return current;
+    }
+
+    public MovieCategory getCategoryByName(final String name) {
+        return categories.get(name);
     }
 
     public Iterable<MovieCategory> categories() {
-        return categories;
+        return categories.values();
     }
 
     public int size() {
         return categories.size();
+    }
+
+    public void currentIsDone() {
+        categories.put(current.getName(), current);
+        current = null;
     }
 
 

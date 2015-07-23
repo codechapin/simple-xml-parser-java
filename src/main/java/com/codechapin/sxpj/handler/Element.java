@@ -3,7 +3,7 @@ package com.codechapin.sxpj.handler;
 /**
  *
  */
-public enum ElementType {
+public enum Element {
     START,
     END
 }

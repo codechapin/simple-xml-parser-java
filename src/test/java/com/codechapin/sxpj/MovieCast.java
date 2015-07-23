@@ -1,24 +1,26 @@
 package com.codechapin.sxpj;
 
-import java.util.Deque;
-import java.util.LinkedList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
  */
 public class MovieCast {
-    private final Deque<MovieActor> actors;
+    private final Map<String, MovieActor> actors;
+
+    private MovieActor current;
 
     public MovieCast() {
-        actors = new LinkedList<>();
+        actors = new HashMap<>();
     }
 
-    public void add(final MovieActor actor) {
-        actors.add(actor);
+    public void setCurrentActor(final MovieActor actor) {
+        current = actor;
     }
 
     public MovieActor currentActor() {
-        return actors.peekLast();
+        return current;
     }
 
     public int size() {
@@ -26,6 +28,15 @@ public class MovieCast {
     }
 
     public Iterable<MovieActor> actors() {
-        return actors;
+        return actors.values();
+    }
+
+    public void setCurrentIsDone() {
+        actors.put(current.getName(), current);
+        current = null;
+    }
+
+    public MovieActor getActorByName(final String name) {
+        return actors.get(name);
     }
 }

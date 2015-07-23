@@ -1,6 +1,6 @@
 package com.codechapin.sxpj;
 
-import com.codechapin.sxpj.handler.ElementType;
+import com.codechapin.sxpj.handler.Element;
 import org.testng.annotations.Test;
 
 import javax.xml.stream.XMLInputFactory;
@@ -9,8 +9,7 @@ import java.io.StringReader;
 import java.net.URL;
 
 import static com.codechapin.sxpj.Rule.*;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNull;
+import static org.testng.Assert.*;
 
 /**
  *
@@ -21,9 +20,11 @@ public class XmlParserTest {
     @Test
     public void elementTest() {
         final Rule<MovieCategory> movieRule = element("/movie",
-                (type, category, parser) -> {
-                    if (type == ElementType.START) {
-                        category.add(new Movie());
+                (element, category, parser) -> {
+                    if (element == Element.START) {
+                        category.setCurrentMovie(new Movie());
+                    } else {
+                        category.currentMovieIsDone();
                     }
                 }
         );
@@ -41,9 +42,11 @@ public class XmlParserTest {
     @Test
     public void attributesTest() {
         final Rule<MovieCategory> movieRule = element("/movie",
-                (type, category, parser) -> {
-                    if (type == ElementType.START) {
-                        category.add(new Movie());
+                (element, category, parser) -> {
+                    if (element == Element.START) {
+                        category.setCurrentMovie(new Movie());
+                    } else {
+                        category.currentMovieIsDone();
                     }
                 }
         );
@@ -78,9 +81,11 @@ public class XmlParserTest {
     @Test
     public void charactersTest() {
         final Rule<MovieCategory> movieRule = element("/movie",
-                (type, category, parser) -> {
-                    if (type == ElementType.START) {
-                        category.add(new Movie());
+                (element, category, parser) -> {
+                    if (element == Element.START) {
+                        category.setCurrentMovie(new Movie());
+                    } else {
+                        category.currentMovieIsDone();
                     }
                 }
         );
@@ -127,9 +132,11 @@ public class XmlParserTest {
     @Test
     public void charactersCDATATest() {
         final Rule<MovieCategory> movieRule = element("/movie",
-                (type, category, parser) -> {
-                    if (type == ElementType.START) {
-                        category.add(new Movie());
+                (element, category, parser) -> {
+                    if (element == Element.START) {
+                        category.setCurrentMovie(new Movie());
+                    } else {
+                        category.currentMovieIsDone();
                     }
                 }
         );
@@ -176,12 +183,12 @@ public class XmlParserTest {
     @Test
     public void testMoviesXml() {
         final Rule<MovieDatabase> categoryRule = element("/imdb/category",
-                (type, db, parser) -> {
-                    if (type == ElementType.END) {
-                        return;
+                (element, db, parser) -> {
+                    if (element == Element.START) {
+                        db.setCurrentCategory(new MovieCategory());
+                    } else {
+                        db.currentIsDone();
                     }
-
-                    db.add(new MovieCategory());
                 }
         );
 
@@ -194,13 +201,13 @@ public class XmlParserTest {
         );
 
         final Rule<MovieDatabase> movieRule = element("/imdb/category/movie",
-                (type, db, parser) -> {
-                    if (type == ElementType.END) {
-                        return;
-                    }
-
+                (element, db, parser) -> {
                     final MovieCategory category = db.currentCategory();
-                    category.add(new Movie());
+                    if (element == Element.START) {
+                        category.setCurrentMovie(new Movie());
+                    } else {
+                        category.currentMovieIsDone();
+                    }
                 }
         );
 
@@ -233,15 +240,17 @@ public class XmlParserTest {
         );
 
         final Rule<MovieDatabase> movieActorRule = element("/imdb/category/movie/cast/actor",
-                (type, db, parser) -> {
-                    if (type == ElementType.END) {
-                        return;
-                    }
-
+                (element, db, parser) -> {
                     final MovieCategory category = db.currentCategory();
                     final Movie movie = category.currentMovie();
                     final MovieCast cast = movie.getCast();
-                    cast.add(new MovieActor());
+
+                    if (element == Element.START) {
+                        cast.setCurrentActor(new MovieActor());
+                    } else {
+                        cast.setCurrentIsDone();
+                    }
+
                 }
         );
 
@@ -277,80 +286,66 @@ public class XmlParserTest {
 
         assertEquals(db.size(), 2);
 
-        //The following test cases could be written in a different way to avoid so much typing,
+        //The following test cases could probably be written in a different way to avoid so much typing,
         //but I wanted to make them easier to read and debug when they break.
 
-        int i = 0;
-        int j;
-        for (MovieCategory category : db.categories()) {
-            assertEquals(category.size(), 1);
+        final MovieCategory action = db.getCategoryByName("Action");
+        assertNotNull(action);
+        assertEquals(action.getName(), "Action");
+        assertEquals(action.size(), 1);
 
-            final Movie movie = category.currentMovie();
-            final MovieCast cast = movie.getCast();
+        final Movie terminator = action.getMovieByName("Terminator 2");
+        assertNotNull(terminator);
+        assertEquals(terminator.getId(), "1234");
+        assertEquals(terminator.getName(), "Terminator 2");
+        assertEquals(terminator.getYear(), "1991");
 
-            assertEquals(cast.size(), 3);
+        final MovieCast terminatorCast = terminator.getCast();
+        assertNotNull(terminatorCast);
 
-            switch (i) {
-                case 0:
-                    assertEquals(category.getName(), "Action");
+        final MovieActor arnold = terminatorCast.getActorByName("Arnold Schwarzenegger");
+        assertNotNull(arnold);
+        assertEquals(arnold.getName(), "Arnold Schwarzenegger");
+        assertEquals(arnold.getCharacterName(), "The Terminator");
 
-                    assertEquals(movie.getId(), "1234");
-                    assertEquals(movie.getName(), "Terminator 2");
-                    assertEquals(movie.getYear(), "1991");
+        final MovieActor linda = terminatorCast.getActorByName("Linda Hamilton");
+        assertNotNull(linda);
+        assertEquals(linda.getName(), "Linda Hamilton");
+        assertEquals(linda.getCharacterName(), "Sarah Connor");
 
-                    j = 0;
-                    for (MovieActor actor : cast.actors()) {
-                        switch (j) {
-                            case 0:
-                                assertEquals(actor.getName(), "Arnold Schwarzenegger");
-                                assertEquals(actor.getCharacterName(), "The Terminator");
-                                break;
-                            case 1:
-                                assertEquals(actor.getName(), "Linda Hamilton");
-                                assertEquals(actor.getCharacterName(), "Sarah Connor");
-                                break;
-                            case 2:
-                                assertEquals(actor.getName(), "Edward Furlong");
-                                assertEquals(actor.getCharacterName(), "John Connor");
-                                break;
-                        }
+        final MovieActor ed = terminatorCast.getActorByName("Edward Furlong");
+        assertNotNull(ed);
+        assertEquals(ed.getName(), "Edward Furlong");
+        assertEquals(ed.getCharacterName(), "John Connor");
 
-                        j++;
-                    }
+        final MovieCategory comedy = db.getCategoryByName("Comedy");
+        assertNotNull(comedy);
+        assertEquals(comedy.getName(), "Comedy");
+        assertEquals(comedy.size(), 1);
 
-                    break;
-                case 1:
-                    assertEquals(category.getName(), "Comedy");
+        final Movie tommyBoy = comedy.getMovieByName("Tommy Boy");
+        assertNotNull(tommyBoy);
+        assertEquals(tommyBoy.getId(), "5678");
+        assertEquals(tommyBoy.getName(), "Tommy Boy");
+        assertEquals(tommyBoy.getYear(), "1995");
 
-                    assertEquals(movie.getId(), "5678");
-                    assertEquals(movie.getName(), "Tommy Boy");
-                    assertEquals(movie.getYear(), "1995");
+        final MovieCast tommyBoyCast = tommyBoy.getCast();
+        assertNotNull(tommyBoyCast);
 
-                    j = 0;
-                    for (MovieActor actor : cast.actors()) {
-                        switch (j) {
-                            case 0:
-                                assertEquals(actor.getName(), "Chris Farley");
-                                assertEquals(actor.getCharacterName(), "Tommy");
-                                break;
-                            case 1:
-                                assertEquals(actor.getName(), "David Spade");
-                                assertEquals(actor.getCharacterName(), "Richard");
-                                break;
-                            case 2:
-                                assertEquals(actor.getName(), "Brian Dennehy");
-                                assertEquals(actor.getCharacterName(), "Big Tom");
-                                break;
-                        }
+        final MovieActor chris = tommyBoyCast.getActorByName("Chris Farley");
+        assertNotNull(chris);
+        assertEquals(chris.getName(), "Chris Farley");
+        assertEquals(chris.getCharacterName(), "Tommy");
 
-                        j++;
-                    }
+        final MovieActor david = tommyBoyCast.getActorByName("David Spade");
+        assertNotNull(david);
+        assertEquals(david.getName(), "David Spade");
+        assertEquals(david.getCharacterName(), "Richard");
 
-                    break;
-            }
-
-            i++;
-        }
+        final MovieActor brian = tommyBoyCast.getActorByName("Brian Dennehy");
+        assertNotNull(brian);
+        assertEquals(brian.getName(), "Brian Dennehy");
+        assertEquals(brian.getCharacterName(), "Big Tom");
 
     }
 

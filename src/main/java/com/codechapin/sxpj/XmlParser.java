@@ -1,6 +1,6 @@
 package com.codechapin.sxpj;
 
-import com.codechapin.sxpj.handler.ElementType;
+import com.codechapin.sxpj.handler.Element;
 
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
@@ -206,7 +206,7 @@ public class XmlParser<S> {
         }
 
         for (Rule<S> rule : tagRuleList) {
-            rule.getElementHandler().handle(ElementType.START, state, this);
+            rule.getElementHandler().handle(Element.START, state, this);
         }
 
         final List<Rule<S>> attrRuleList = attrRules.get(hash);
@@ -301,7 +301,7 @@ public class XmlParser<S> {
         final List<Rule<S>> rules = tagRules.get(location.getCachedHashCode());
         if (rules != null && !rules.isEmpty()) {
             for (Rule<S> rule : rules) {
-                rule.getElementHandler().handle(ElementType.END, state, this);
+                rule.getElementHandler().handle(Element.END, state, this);
             }
         }
 
