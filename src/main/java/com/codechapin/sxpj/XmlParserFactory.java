@@ -30,6 +30,7 @@ public class XmlParserFactory {
      */
     public XmlParserFactory(final XMLInputFactory factory) {
         Objects.requireNonNull(factory, "The XMLInputFactory cannot be null.");
+        factory.setProperty(XMLInputFactory.IS_COALESCING, true);  // decode entities into one string
         this.factory = factory;
     }
 

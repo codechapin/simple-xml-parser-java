@@ -42,6 +42,5 @@ public class MovieCategory {
 
     public void currentMovieIsDone() {
         movies.put(current.getName(), current);
-        current = null;
     }
 }

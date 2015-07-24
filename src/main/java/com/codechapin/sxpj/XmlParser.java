@@ -290,7 +290,7 @@ public class XmlParser<S> {
             return;
         }
 
-        final String chars = reader.getText();
+        final String chars = reader.getText().trim();
 
         for (Rule<S> rule : rules) {
             rule.getCharactersHandler().handle(chars, state, this);
