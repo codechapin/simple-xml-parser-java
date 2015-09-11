@@ -39,6 +39,7 @@
         <connection>scm:git:git@github.com:codechapin/simple-xml-parser-java.git</connection>
         <developerConnection>scm:git:git@github.com:codechapin/simple-xml-parser-java.git</developerConnection>
         <url>git@github.com:codechapin/simple-xml-parser-java.git</url>
+        <tag>HEAD</tag>
     </scm>
 
     <properties>

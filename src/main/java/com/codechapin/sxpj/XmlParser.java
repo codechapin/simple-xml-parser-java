@@ -60,7 +60,6 @@ public class XmlParser<S> {
      *
      * @param in    the XML content to be read.
      * @param state object that stores data constructed by the handlers.
-     * @throws XmlParserException
      */
     public void parse(final Reader in, final S state) {
         Objects.requireNonNull(in, "The Reader cannot be null for XmlParser.parse");
@@ -87,7 +86,6 @@ public class XmlParser<S> {
      *
      * @param in    the XML content to be read.
      * @param state object that stores data constructed by the handlers.
-     * @throws XmlParserException
      */
     public void parse(final InputStream in, final S state) {
         parse(in, null, state);
@@ -111,7 +109,6 @@ public class XmlParser<S> {
      *                {@link XmlParser#parse(InputStream, Object)} to let the underlying
      *                {@link XMLInputFactory} auto-detect the encoding.
      * @param state   object that stores data constructed by the handlers.
-     * @throws XmlParserException
      */
     public void parse(final InputStream in, final Charset charset, final S state) {
         Objects.requireNonNull(in, "The InputStream cannot be null for XmlParser.parse");
@@ -352,7 +349,7 @@ public class XmlParser<S> {
          * This allows us to say a <code>String</code> with the content
          * "/library/book/title" is equal to an instance of this class
          * representing the same location when doing lookups in a {@link Map}.
-         * <p/>
+         * <br />
          * This method calculates the hash code and then caches it, followup
          * calls to {@link #push(String, String)} or {@link #pop()} invalidate
          * the cached hash code allowing it to be recalculated again on the next
@@ -377,12 +374,12 @@ public class XmlParser<S> {
         /**
          * Used to get a cached {@link Integer} version of the <code>int</code>
          * {@link #hashCode()} return value.
-         * <p/>
+         * <br />
          * To avoid unnecessary {@link Integer} allocations, this method caches
          * up to a certain number of {@link Integer} instances, re-using them
          * every time the same hash code value comes back up and creating new
          * instances when it doesn't.
-         * <p/>
+         * <br />
          * If a larger number of {@link Integer} instances are created than the
          * underlying cache can hold, then a new instance will be created and
          * returned like normal.
@@ -392,7 +389,7 @@ public class XmlParser<S> {
          * inside of an XML doc (e.g. "/library", "/library/book", etc.) there
          * are typically not that many; maybe 20, 50 or less than a 100 in most
          * cases.
-         * <p/>
+         * <br />
          * Once the hash code {@link Integer} values for these unique paths is
          * created and cached, once we re-encounter that path again and again,
          * we don't need to recreate that hash code {@link Integer}, we can just
@@ -478,7 +475,7 @@ public class XmlParser<S> {
          * "Pops" the last pushed path element off the "stack" by re-adjusting
          * the {@link StringBuilder}'s length to what it was before the last
          * element was appended.
-         * <p/>
+         * <br />
          * This effectively chops the last element off the path without doing a
          * more costly {@link StringBuilder#delete(int, int)} operation that
          * would incur a call to
