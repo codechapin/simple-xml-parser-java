@@ -1,6 +1,6 @@
-package com.codechapin.sxpj.handler;
+package com.github.codechapin.sxpj.handler;
 
-import com.codechapin.sxpj.XmlParser;
+import com.github.codechapin.sxpj.XmlParser;
 
 /**
  * This handler is merely called to give custom handling

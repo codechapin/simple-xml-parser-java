@@ -1,8 +1,8 @@
-package com.codechapin.sxpj;
+package com.github.codechapin.sxpj;
 
-import com.codechapin.sxpj.handler.AttributeHandler;
-import com.codechapin.sxpj.handler.CharactersHandler;
-import com.codechapin.sxpj.handler.ElementHandler;
+import com.github.codechapin.sxpj.handler.AttributeHandler;
+import com.github.codechapin.sxpj.handler.CharactersHandler;
+import com.github.codechapin.sxpj.handler.ElementHandler;
 
 import java.util.Objects;
 

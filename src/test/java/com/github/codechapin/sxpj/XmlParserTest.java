@@ -1,6 +1,6 @@
-package com.codechapin.sxpj;
+package com.github.codechapin.sxpj;
 
-import com.codechapin.sxpj.handler.Element;
+import com.github.codechapin.sxpj.handler.Element;
 import org.testng.annotations.Test;
 
 import javax.xml.stream.XMLInputFactory;
@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.net.URL;
 
-import static com.codechapin.sxpj.Rule.*;
+import static com.github.codechapin.sxpj.Rule.*;
 import static org.testng.Assert.*;
 
 /**

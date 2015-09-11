@@ -1,6 +1,6 @@
-package com.codechapin.sxpj;
+package com.github.codechapin.sxpj;
 
-import com.codechapin.sxpj.handler.Element;
+import com.github.codechapin.sxpj.handler.Element;
 
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;

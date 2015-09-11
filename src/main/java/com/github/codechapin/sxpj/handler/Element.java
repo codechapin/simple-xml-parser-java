@@ -1,4 +1,4 @@
-package com.codechapin.sxpj.handler;
+package com.github.codechapin.sxpj.handler;
 
 /**
  *

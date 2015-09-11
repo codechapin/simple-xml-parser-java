@@ -1,4 +1,4 @@
-package com.codechapin.sxpj;
+package com.github.codechapin.sxpj;
 
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;

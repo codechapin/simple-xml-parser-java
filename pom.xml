@@ -8,7 +8,7 @@
         <version>9</version>
     </parent>
 
-    <groupId>com.codechapin.sxpj</groupId>
+    <groupId>com.github.codechapin</groupId>
     <artifactId>sxpj</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>

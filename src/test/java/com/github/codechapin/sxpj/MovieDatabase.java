@@ -1,4 +1,4 @@
-package com.codechapin.sxpj;
+package com.github.codechapin.sxpj;
 
 import java.util.HashMap;
 import java.util.Map;
