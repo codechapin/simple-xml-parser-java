@@ -10,7 +10,7 @@ import java.util.Objects;
 
 /**
  * It is recommended to shared an instance of this class between multiple threads.
- * The underlying {@ling XMLInputFactory} is expensive to create so it is better to share it.
+ * The underlying {@link XMLInputFactory} is expensive to create so it is better to share it.
  */
 public class XmlParserFactory {
     private final XMLInputFactory factory;
@@ -26,7 +26,7 @@ public class XmlParserFactory {
     /**
      * Use this method to passed a custom configured XMLInputFactory
      *
-     * @param factory
+     * @param factory the configured XMLInputFactory to use for this instance.
      */
     public XmlParserFactory(final XMLInputFactory factory) {
         Objects.requireNonNull(factory, "The XMLInputFactory cannot be null.");

@@ -1,19 +1,24 @@
 package com.codechapin.sxpj;
 
 /**
+ * <p>
  * Unchecked exception used to unify and report everything that can go wrong
  * during an XML parse.
- * <p/>
+ * </p>
+ * <p>
  * Using this helps simplify caller code by allowing them to optionally catch
  * this unchecked exception. Each exception of this type will include a detailed
  * explanation of what caused the underlying exception to occur and avoids
  * pushing up the concerns of the underlying impl to the caller.
- * <p/>
+ * </p>
+ * <p>
  * 90% of the time you just want to parse XML and know if it succeeded or
  * failed, this simplifies for this scenario.
- * <p/>
+ * </p>
+ * <p>
  * For callers that do want to know exactly what went wrong, you can use
  * {@link #getCause()} to get the source exception that this one is wrapping.
+ * </p>
  */
 public class XmlParserException extends RuntimeException {
     private static final long serialVersionUID = 1L;

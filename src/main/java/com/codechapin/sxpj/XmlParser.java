@@ -46,18 +46,22 @@ public class XmlParser<S> {
     }
 
     /**
+     * <p>
      * Parse the XML out of the given input (producing content matching the
      * given charset) matching the handlers provided with the
      * different register methods.
-     * <p/>
+     * </p>
+     * <p>
      * This class will make no attempt at closing the given {@link Reader},
      * the caller must take care to clean up that resource.
+     * </p>
      * <h3>Stopping Parsing</h3>
+     * <p>
      * Parsing can be safely stopped by calling {@link #stop()}. This allows
      * handlers control over stopping parsing, for example,
      * if an arbitrary threshold is hit. A followup call to any of the
      * <code>parse</code> methods will reset the stopped state.
-     *
+     *</p>
      * @param in    the XML content to be read.
      * @param state object that stores data constructed by the handlers.
      */
@@ -72,17 +76,22 @@ public class XmlParser<S> {
     }
 
     /**
+     * <p>
      * Parse the XML out of the given input (producing content matching the
      * given charset) matching the handlers provided with the
      * different register methods.
-     * <p/>
+     * </p>
+     * <p>
      * This class will make no attempt at closing the given {@link InputStream},
      * the caller must take care to clean up that resource.
+     * </p>
      * <h3>Stopping Parsing</h3>
+     * <p>
      * Parsing can be safely stopped by calling {@link #stop()}. This allows
      * handlers control over stopping parsing, for example,
      * if an arbitrary threshold is hit. A followup call to any of the
      * <code>parse</code> methods will reset the stopped state.
+     * </p>
      *
      * @param in    the XML content to be read.
      * @param state object that stores data constructed by the handlers.
@@ -92,17 +101,22 @@ public class XmlParser<S> {
     }
 
     /**
+     * <p>
      * Parse the XML out of the given input (producing content matching the
      * given charset) matching the handlers provided with the
      * different register methods.
-     * <p/>
+     * </p>
+     * <p>
      * This class will make no attempt at closing the given {@link InputStream},
      * the caller must take care to clean up that resource.
+     * </p>
      * <h3>Stopping Parsing</h3>
+     * <p>
      * Parsing can be safely stopped by calling {@link #stop()}. This allows
      * handlers control over stopping parsing, for example,
      * if an arbitrary threshold is hit. A followup call to any of the
      * <code>parse</code> methods will reset the stopped state.
+     * </p>
      *
      * @param in      the XML content to be read.
      * @param charset the character encoding of the given XML. If not known pass null or use
